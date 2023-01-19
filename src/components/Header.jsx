@@ -6,7 +6,7 @@ import "../styles/header.css";
 
 
 
-function Header({setErrorMsg, loggedIn, setLoggedIn}) {
+function Header({setErrorMsg, loggedIn, setLoggedIn, role, setRole}) {
 
 
     return (
@@ -18,15 +18,15 @@ function Header({setErrorMsg, loggedIn, setLoggedIn}) {
 
             <div className="topnavMid">
                 <NavLink className="" to="/"><i className="fa fa-fw fa-home"></i> Home</NavLink>
+                {role === "admin" ? (<NavLink to="/admin"><i className="fa fa-fw fa-envelope"></i> Admin</NavLink>) : ("")}
                 <NavLink to="/search"><i className="fa fa-fw fa-search"></i> Search</NavLink>
                 <NavLink to="/contact"><i className="fa fa-fw fa-envelope"></i> Contact</NavLink>
-                <NavLink to="/pokemon"><i className="fa fa-fw fa-envelope"></i> Pokemon</NavLink>
             </div>
 
             <div className="topnavRight">
-                {!loggedIn ? (<Login setLoggedIn={setLoggedIn} setErrorMsg={setErrorMsg}  />) :
+                {!loggedIn ? (<Login setLoggedIn={setLoggedIn} setErrorMsg={setErrorMsg} setRole={setRole} />) :
                     (<div>
-                        <LoggedIn setLoggedIn={setLoggedIn}/>
+                        <LoggedIn setLoggedIn={setLoggedIn} setRole={setRole}/>
                     </div>)}
                 <NavLink to="/signup">
                     <button className='signUp'>Sign up</button>

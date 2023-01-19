@@ -1,4 +1,4 @@
-import {useRef, useState,useEffect } from "react"
+import {useRef, useState, useEffect} from "react"
 import {Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Search from "./pages/Search.jsx";
@@ -6,38 +6,38 @@ import Contact from "./pages/Contact.jsx";
 import facade from "./apiFacade";
 import Header from "./components/Header.jsx";
 import SignUp from "./components/SignUp.jsx";
-import Pokemon from "./pages/Pokemon.jsx";
+import Admin from "./pages/Admin.jsx";
+
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [role, setRole] = useState("")
 
-  const obj = {
-    name: "TestName",
-    street: "TestStreet",
-    town: "TestTown",
-    country: "TestCountry",
-  }
+    const obj = {
+        name: "TestName",
+        street: "TestStreet",
+        town: "TestTown",
+        country: "TestCountry",
+    }
 
-  return (
-      <>
-        <Header setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
-        <Routes>
-          <Route path="" element={<Home/>}/>
-          <Route path="/search" element={<Search/>}/>
-          <Route path="/contact" element={<Contact address={obj}/>}/>
-          <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn}/>}/>
-          <Route path="/pokemon" element={<Pokemon/>}/>
-          <Route path="*" element={<h1>Page Not Found !!!!</h1>}/>
-        </Routes>
-      </>
-  );
+    return (
+        <>
+            <Header setLoggedIn={setLoggedIn} loggedIn={loggedIn} role={role} setRole={setRole}/>
+            <Routes>
+                <Route path="" element={<Home loggedIn={loggedIn} role={role}/>}/>
+                <Route path="/search" element={<Search/>}/>
+                <Route path="/contact" element={<Contact address={obj}/>}/>
+                <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn}/>}/>
+
+                <Route path="/admin" element={<Admin/>}/>
+                <Route path="*" element={<h1>Page Not Found !!!!</h1>}/>
+            </Routes>
+        </>
+    );
 }
 
 export default App;
-
-
-
 
 
 // function LogIn({ login }) {

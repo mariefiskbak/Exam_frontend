@@ -6,8 +6,8 @@
 
 # PROJECT_NAME="Name or your frontend project, for example movie --> folder you created under /var/www/public"
 # DROPLET_URL="URL for your droplet"
-PROJECT_NAME="ca2"
-DROPLET_URL='164.92.142.155'
+PROJECT_NAME="exam_frontend"
+DROPLET_URL='165.22.78.130'
 
 echo "##############################"
 echo "Building the frontend project"
