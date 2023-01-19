@@ -4,9 +4,9 @@ import facade from "../apiFacade.js";
 import Talks from "../components/Talks.jsx";
 import AllTalks from "../components/AllTalks.jsx";
 
-function Admin(){
-
-    const [conference, setConference] = useState({name: "", location: "", capacity: "", date: "", time: ""})
+function Admin() {
+    const init = {name: "", location: "", capacity: "", date: "", time: ""}
+    const [conference, setConference] = useState(init)
     const [talks, setTalks] = useState([])
     const [showAllTalks, setShowAllTalks] = useState(false)
 
@@ -15,7 +15,7 @@ function Admin(){
     }
 
     const handleClick = (entity) => {
-        if(entity === "talks") {
+        if (entity === "talks") {
             facade.fetchData(`/conference/alltalks`, setTalks, "GET")
             setShowAllTalks(true)
         }
@@ -23,25 +23,13 @@ function Admin(){
 
     // const conferenceForm =
 
-const createConference = (evt) => {
-    evt.preventDefault();
-    console.log(conference.name)
-    console.log(conference.location)
-    console.log(conference.capacity)
-    console.log(conference.date)
-    console.log(conference.time)
-    facade.createConference(conference.name, conference.location, conference.capacity, conference.date, conference.time)
-        .catch(err => {
-            if (err.status) {
-                err.fullError.then(e => console.log(e.message))
-            } else {
-                console.log("Network Error");
-            }
-        })
-    // facade.fetchData("conference/newconference", () => alert("Conference created succesfully"), "POST", conference)
-}
+    const createConference = (evt) => {
+        evt.preventDefault();
+        facade.fetchData("/conference/newconference", () => alert("Conference created succesfully"), "POST", conference)
+        setConference(init)
+    }
 
-    return(
+    return (
         <div>
             <div>
                 <h3>Create new entity</h3>
@@ -52,7 +40,8 @@ const createConference = (evt) => {
                         <input placeholder="Name" type="text" id="name" value={conference.name} onChange={onCChange}/>
 
                         <span>Location</span>
-                        <input placeholder="Location" type="text" id="location" value={conference.location} onChange={onCChange}/>
+                        <input placeholder="Location" type="text" id="location" value={conference.location}
+                               onChange={onCChange}/>
 
                         <span>Capacity</span>
                         <input type="number" id="capacity" value={conference.capacity} onChange={onCChange}/>
@@ -85,4 +74,5 @@ const createConference = (evt) => {
         </div>
     )
 }
+
 export default Admin

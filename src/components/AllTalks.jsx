@@ -7,11 +7,11 @@ import Modal from 'react-modal';
 import "../styles/styles.css"
 
 
+let talkId = 0
+
 function AllTalks({talks}) {
     const [isOpen, setIsOpen] = useState(false);
     const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: ""})
-
-    let talkId = 0
 
 
     const getTheTalk = (e) => {
