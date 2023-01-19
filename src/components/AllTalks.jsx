@@ -4,15 +4,20 @@ import facade from "../apiFacade.js";
 import Login from "../components/Login.jsx";
 import LoggedIn from "../components/LoggedIn.jsx";
 import Modal from 'react-modal';
+import "../styles/styles.css"
 
 
 function AllTalks({talks}) {
     const [isOpen, setIsOpen] = useState(false);
     const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: ""})
 
+    let talkId = 0
+
 
     const getTheTalk = (e) => {
         facade.fetchData(`/conference/talkid/${e.target.value}`, setEditTalk, "GET")
+        talkId = e.target.value
+        console.log(talkId)
         openModal()
     }
 
@@ -42,7 +47,9 @@ function AllTalks({talks}) {
 
     const updateTalk = (evt) => {
         evt.preventDefault()
-        facade.fetchData(`conference/updatetalk/${talkId}`, () => alert("Talk updated succesfully"), "POST", editTalk)
+        console.log("talkId")
+        console.log({talkId})
+        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", editTalk)
     }
 
     const onChange = (evt) => {
@@ -88,7 +95,6 @@ function AllTalks({talks}) {
 
             <Modal
                 isOpen={isOpen}
-                // onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Example Modal"
@@ -107,6 +113,7 @@ function AllTalks({talks}) {
                         <span>Props list</span>
                         <input placeholder={editTalk.propsList} type="text" id="propsList" value={editTalk.propsList}
                                onChange={onChange}/>
+                        //TODO speakers and conference
 
 
                         <button type="submit">Submit</button>

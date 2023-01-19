@@ -29,3 +29,20 @@
 .display-none {
     display: none;
 }
+
+#modalToBe {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+#modalToBe form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+}
+
+#form {
+    flex-direction: column;
+}

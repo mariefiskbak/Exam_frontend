@@ -121,7 +121,7 @@ function apiFacade() {
       time: time
     })
     // return fetch(BASE_URL + "/conference/newconference", {...opts, mode: 'no-cors'})
-    return fetch(BASE_URL + "conference/newconference", opts)
+    return fetch(BASE_URL + "/conference/newconference", opts)
         .then(handleHttpErrors)
 
   }
