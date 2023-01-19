@@ -1,13 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {Button} from "react-bootstrap";
 import facade from "../apiFacade.js";
+import Talks from "../components/Talks.jsx";
+import AllTalks from "../components/AllTalks.jsx";
 
 function Admin(){
 
     const [conference, setConference] = useState({name: "", location: "", capacity: "", date: "", time: ""})
+    const [talks, setTalks] = useState([])
+    const [showAllTalks, setShowAllTalks] = useState(false)
 
     const onCChange = (evt) => {
         setConference({...conference, [evt.target.id]: evt.target.value})
+    }
+
+    const handleClick = (entity) => {
+        if(entity === "talks") {
+            facade.fetchData(`/conference/alltalks`, setTalks, "GET")
+            setShowAllTalks(true)
+        }
     }
 
     // const conferenceForm =
@@ -33,6 +44,7 @@ const createConference = (evt) => {
     return(
         <div>
             <div>
+                <h3>Create new entity</h3>
                 {/*<Button onClick={conferenceForm}>+</Button> Conference*/}
                 <div id="form">
                     <form onSubmit={createConference}>
@@ -59,6 +71,16 @@ const createConference = (evt) => {
                 <Button>+</Button> Talk
                 <br/>
                 <Button>+</Button> Speaker
+            </div>
+
+            <div>
+                <h3>Update entities</h3>
+                <div>
+                    <a href="#" onClick={() => handleClick("talks")}>Show all Talks</a> <br/>
+                    {showAllTalks && <AllTalks talks={talks}/>}
+                    <a href="#" onClick={() => handleClick("conferences")}>Show all Conferences</a> <br/>
+                    <a href="#" onClick={() => handleClick("speakers")}>Show all Speakers</a>
+                </div>
             </div>
         </div>
     )

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import facade from "../apiFacade.js";
+import "../styles/styles.css";
 import Login from "../components/Login.jsx";
 import LoggedIn from "../components/LoggedIn.jsx";
 import Talks from "../components/Talks.jsx";

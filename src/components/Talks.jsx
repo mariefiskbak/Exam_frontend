@@ -5,7 +5,7 @@ import Login from "../components/Login.jsx";
 import LoggedIn from "../components/LoggedIn.jsx";
 
 
-function Talks({loggedIn, conferenceId}) {
+function Talks({conferenceId}) {
     const [talks, setTalks] = useState([])
 
     useEffect(() => {
@@ -43,12 +43,6 @@ function Talks({loggedIn, conferenceId}) {
                     ))}
                     </tbody>
                 </Table>
-            </div>
-
-            <div>
-                {talks.map((talk) => (
-                    talk.name
-                ))}
             </div>
 
         </div>
