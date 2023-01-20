@@ -31,6 +31,7 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
     }, [])
 
     const getTheTalk = (e) => {
+        // Her bliver talksene hentet MED de speakers der hører til
         facade.fetchData(`/conference/talkid/${e.target.value}`, setEditTalk, "GET")
         talkId = e.target.value
         console.log(talkId)
@@ -81,7 +82,7 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
         // facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: [ {id: addSpeaker } ] })
         facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {
             ...editTalk,
-            speakers: newSpeakers
+            speakers: [{id: addSpeaker}]
         })
     }
 
@@ -146,7 +147,7 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
                 contentLabel="Example Modal"
                 ariaHideApp={false}
             >
-                <button class="btn btn-secondary btn-sm" onClick={closeModal}>close</button>
+                <button className="btn btn-secondary btn-sm" onClick={closeModal}>close</button>
                 <div id="modalToBe">
                     <form onSubmit={updateTalk}>
                         <br/>
@@ -184,6 +185,7 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
                                 </select>
                             </label>
                         </div>
+
                         <div className="mb-3">
                             <label>
                                 Remove speaker:
