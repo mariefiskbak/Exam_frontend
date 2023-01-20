@@ -1,5 +1,6 @@
 import React, {useDebugValue, useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import facade from "../apiFacade.js";
 import Login from "../components/Login.jsx";
 import LoggedIn from "../components/LoggedIn.jsx";
@@ -12,8 +13,13 @@ let talkId = 0
 function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
     const [isOpen, setIsOpen] = useState(false);
     const [addSpeaker, setAddSpeaker] = useState("")
-    const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: "", speakers: [{id: 0, name: "test", profession: "", gender: ""}]} )
-    const [editTalkSpeaker, setEditTalkSpeaker] = useState({...editTalk, speakers: [ {id: addSpeaker } ] } )
+    const [editTalk, setEditTalk] = useState({
+        topic: "",
+        duration: 0,
+        propsList: "",
+        speakers: [{id: 0, name: "test", profession: "", gender: ""}]
+    })
+    const [editTalkSpeaker, setEditTalkSpeaker] = useState({...editTalk, speakers: [{id: addSpeaker}]})
     const [speakers, setSpeakers] = useState([])
     const [removeSpeaker, setRemoveSpeaker] = useState("")
     const [talkSpeakers, setTalkSpeakers] = useState([])
@@ -35,7 +41,7 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
         console.log("speakers length")
         console.log(editTalk.speakers.length)
         editTalk.speakers.map((speaker) => {
-            console.log(speaker.name)
+                console.log(speaker.name)
             }
         )
         openModal()
@@ -68,20 +74,23 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
     const updateTalk = (evt) => {
         console.log("addSpeaker")
         console.log(addSpeaker)
-        setEditTalkSpeaker({...editTalk, speakers: [ {id: addSpeaker } ] })
+        setEditTalkSpeaker({...editTalk, speakers: [{id: addSpeaker}]})
         // evt.preventDefault()
         console.log("talkId")
         console.log({talkId})
         // facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: [ {id: addSpeaker } ] })
-        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: newSpeakers })
+        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {
+            ...editTalk,
+            speakers: newSpeakers
+        })
     }
 
     const deleteTalk = (evt) => {
         //TODO are-you-sure-step
-        facade.fetchData(`/conference/deletetalk/${evt.target.value}`,  () => alert("Talk deleted successfully"), "DELETE")
+        facade.fetchData(`/conference/deletetalk/${evt.target.value}`, () => alert("Talk deleted successfully"), "DELETE")
             .then(() => {
                 setShouldUpdate(!shouldUpdate)
-        })
+            })
 
     }
 
@@ -96,7 +105,7 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
             </div>
 
             <div>
-                <Table>
+                <Table className="table table-striped">
                     <thead>
                     <tr>
                         {/*<th>Number</th>*/}
@@ -137,50 +146,62 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
                 contentLabel="Example Modal"
                 ariaHideApp={false}
             >
-                <button onClick={closeModal}>close</button>
+                <button class="btn btn-secondary btn-sm" onClick={closeModal}>close</button>
                 <div id="modalToBe">
                     <form onSubmit={updateTalk}>
+                        <br/>
+                        <div className="mb-3">
+                            <span className="form-label">Topic</span>
+                            <input className="form-control" placeholder={editTalk.topic} type="text" id="topic"
+                                   value={editTalk.topic}
+                                   onChange={onChange}/>
+                        </div>
+                        <div className="mb-3">
+                            <span className="form-label">Duration (min)</span>
+                            <input className="form-control" placeholder={editTalk.duration} type="number" id="duration"
+                                   value={editTalk.duration}
+                                   onChange={onChange}/>
+                        </div>
+                        <div className="mb-3">
+                            <span className="form-label">Props list</span>
+                            <input className="form-control" placeholder={editTalk.propsList} type="text" id="propsList"
+                                   value={editTalk.propsList}
+                                   onChange={onChange}/>
+                        </div>
+                        <div className="mb-3">
+                            <label>
+                                Add speaker:
+                                <select
+                                    className="form-select"
+                                    value={addSpeaker}
+                                    onChange={(event) => setAddSpeaker(event.target.value)}
+                                >
+                                    {speakers.map((option) => (
+                                        <option key={option.id} value={option.id}>
+                                            {option.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                        </div>
+                        <div className="mb-3">
+                            <label>
+                                Remove speaker:
+                                <select
+                                    className="form-select"
+                                    value={removeSpeaker}
+                                    onChange={(event) => setRemoveSpeaker(event.target.value)}
+                                >
+                                    {editTalk.speakers.map((option) => (
+                                        <option key={option.id} value={option.id}>
+                                            {option.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                        </div>
 
-                        <span>Topic</span>
-                        <input placeholder={editTalk.topic} type="text" id="topic" value={editTalk.topic}
-                               onChange={onChange}/>
-                        <span>Duration (min)</span>
-                        <input placeholder={editTalk.duration} type="number" id="duration" value={editTalk.duration}
-                               onChange={onChange}/>
-                        <span>Props list</span>
-                        <input placeholder={editTalk.propsList} type="text" id="propsList" value={editTalk.propsList}
-                               onChange={onChange}/>
-
-                        <label>
-                            Add speaker:
-                            <select
-                                value={addSpeaker}
-                                onChange={(event) => setAddSpeaker(event.target.value)}
-                            >
-                                {speakers.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {option.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-
-                        <label>
-                            Remove speaker:
-                            <select
-                                value={removeSpeaker}
-                                onChange={(event) => setRemoveSpeaker(event.target.value)}
-                            >
-                                {editTalk.speakers.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {option.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-
-
-                        <button type="submit">Submit</button>
+                        <button className="btn btn-primary" type="submit">Submit</button>
 
                     </form>
 

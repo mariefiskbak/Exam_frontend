@@ -32,7 +32,7 @@ function Conference({loggedIn}) {
             </div>
 
             <div>
-                <Table>
+                <Table className="table table-striped">
                     <thead>
                     <tr>
                         <th>Conference Name</th>

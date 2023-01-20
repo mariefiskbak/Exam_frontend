@@ -23,7 +23,7 @@ function Talks({conferenceId}) {
             </div>
 
             <div>
-                <Table>
+                <Table className="table table-striped">
                     <thead>
                     <tr>
                         {/*<th>Number</th>*/}

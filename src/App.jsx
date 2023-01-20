@@ -7,6 +7,7 @@ import facade from "./apiFacade";
 import Header from "./components/Header.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Admin from "./pages/Admin.jsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
