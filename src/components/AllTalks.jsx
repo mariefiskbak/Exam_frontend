@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useDebugValue, useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import facade from "../apiFacade.js";
 import Login from "../components/Login.jsx";
@@ -12,9 +12,12 @@ let talkId = 0
 function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
     const [isOpen, setIsOpen] = useState(false);
     const [addSpeaker, setAddSpeaker] = useState("")
-    const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: ""} )
+    const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: "", speakers: [{id: 0, name: "test", profession: "", gender: ""}]} )
     const [editTalkSpeaker, setEditTalkSpeaker] = useState({...editTalk, speakers: [ {id: addSpeaker } ] } )
     const [speakers, setSpeakers] = useState([])
+    const [removeSpeaker, setRemoveSpeaker] = useState("")
+    const [talkSpeakers, setTalkSpeakers] = useState([])
+    const [newSpeakers, setNewSpeakers] = useState([])
 
 
     useEffect(() => {
@@ -25,6 +28,16 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
         facade.fetchData(`/conference/talkid/${e.target.value}`, setEditTalk, "GET")
         talkId = e.target.value
         console.log(talkId)
+        // Få fat i alle speakers til den valgte talk
+        // Jeg kan desværre ikke nå dem her
+        setTalkSpeakers(editTalk.speakers)
+        // Lægge de valgte addede speakere til og trække de fravalgte fra
+        console.log("speakers length")
+        console.log(editTalk.speakers.length)
+        editTalk.speakers.map((speaker) => {
+            console.log(speaker.name)
+            }
+        )
         openModal()
     }
 
@@ -59,7 +72,8 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
         // evt.preventDefault()
         console.log("talkId")
         console.log({talkId})
-        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: [ {id: addSpeaker } ] })
+        // facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: [ {id: addSpeaker } ] })
+        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: newSpeakers })
     }
 
     const deleteTalk = (evt) => {
@@ -151,7 +165,19 @@ function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
                             </select>
                         </label>
 
-                        //TODO speakers and conference
+                        <label>
+                            Remove speaker:
+                            <select
+                                value={removeSpeaker}
+                                onChange={(event) => setRemoveSpeaker(event.target.value)}
+                            >
+                                {editTalk.speakers.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
 
 
                         <button type="submit">Submit</button>

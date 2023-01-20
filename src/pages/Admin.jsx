@@ -35,12 +35,12 @@ function Admin() {
     }
 
     return (
-        <div>
+        <div className="page">
             <div>
                 <h3>Create new entity</h3>
                 {/*<Button onClick={conferenceForm}>+</Button> Conference*/}
                 <div id="form">
-                    <form onSubmit={createConference}>
+                    <form onSubmit={createConference} id="form">
                         <span>Conference Name</span>
                         <input placeholder="Name" type="text" id="name" value={conference.name} onChange={onCChange}/>
 

@@ -3,6 +3,10 @@
     text-align: center;
 }
 
+.page {
+    margin: 4rem;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -44,5 +48,33 @@
 }
 
 #form {
+    display: flex;
     flex-direction: column;
+    width: 30rem;
+    /*margin: auto;*/
 }
+
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #87958f;
+    color: white;
+}
+

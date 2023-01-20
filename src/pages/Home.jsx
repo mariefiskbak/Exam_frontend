@@ -4,14 +4,13 @@ import facade from "../apiFacade.js";
 import Login from "../components/Login.jsx";
 import LoggedIn from "../components/LoggedIn.jsx";
 import Conference from "./Conference.jsx";
-import Modaltest from "./Modaltest.jsx";
 
 
 function Home({loggedIn, role}) {
 
 
     return (
-        <div>
+        <div className="page">
             {role === "admin" || role === "user" ? (
                 <div>
                 <Conference loggedIn={loggedIn}/>

@@ -40,10 +40,10 @@ body {
 .topnavMid a:hover {
     align-self: center;
     height: 100%;
-    background-color: green;
+    background-color: #4b4b4b;
 }
 .topnavMid a.active {
-    background-color: green;
+    background-color: #626262;
 }
 
 .topnavRight {
@@ -60,14 +60,14 @@ body {
 .topnavRight button {
     height: 45px;
     width: 80px;
-    background-color: green;
+    background-color: #649f64;
     border: none;
     color: white;
     cursor: pointer;
 }
 .signUp {
     margin-left: 20px;
-    background-color: darkblue !important;
+    background-color: #8d8dd1 !important;
 }
 
 

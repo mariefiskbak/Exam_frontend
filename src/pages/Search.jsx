@@ -6,7 +6,7 @@ function Search(props) {
     console.log(inputRef.current)
 
     return (
-        <div>
+        <div className="page">
             <h1>Search</h1>
             <form>
                 <input
