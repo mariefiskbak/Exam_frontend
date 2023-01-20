@@ -9,10 +9,17 @@ import "../styles/styles.css"
 
 let talkId = 0
 
-function AllTalks({talks}) {
+function AllTalks({talks, shouldUpdate, setShouldUpdate}) {
     const [isOpen, setIsOpen] = useState(false);
-    const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: ""})
+    const [addSpeaker, setAddSpeaker] = useState("")
+    const [editTalk, setEditTalk] = useState({topic: "", duration: 0, propsList: ""} )
+    const [editTalkSpeaker, setEditTalkSpeaker] = useState({...editTalk, speakers: [ {id: addSpeaker } ] } )
+    const [speakers, setSpeakers] = useState([])
 
+
+    useEffect(() => {
+        facade.fetchData(`/conference/allspeakers`, setSpeakers, "GET")
+    }, [])
 
     const getTheTalk = (e) => {
         facade.fetchData(`/conference/talkid/${e.target.value}`, setEditTalk, "GET")
@@ -46,10 +53,22 @@ function AllTalks({talks}) {
     };
 
     const updateTalk = (evt) => {
-        evt.preventDefault()
+        console.log("addSpeaker")
+        console.log(addSpeaker)
+        setEditTalkSpeaker({...editTalk, speakers: [ {id: addSpeaker } ] })
+        // evt.preventDefault()
         console.log("talkId")
         console.log({talkId})
-        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", editTalk)
+        facade.fetchData(`/conference/updatetalk/${talkId}`, () => alert("Talk updated successfully"), "PUT", {...editTalk, speakers: [ {id: addSpeaker } ] })
+    }
+
+    const deleteTalk = (evt) => {
+        //TODO are-you-sure-step
+        facade.fetchData(`/conference/deletetalk/${evt.target.value}`,  () => alert("Talk deleted successfully"), "DELETE")
+            .then(() => {
+                setShouldUpdate(!shouldUpdate)
+        })
+
     }
 
     const onChange = (evt) => {
@@ -73,6 +92,7 @@ function AllTalks({talks}) {
                         <th>Speakers</th>
                         <th>Conference</th>
                         <th>Edit</th>
+                        <th>Delete talk</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,6 +106,9 @@ function AllTalks({talks}) {
                             <td>{talk.conference.name}</td>
                             <td>
                                 <button onClick={getTheTalk} value={talk.id}>Select</button>
+                            </td>
+                            <td>
+                                <button onClick={deleteTalk} value={talk.id}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -113,6 +136,21 @@ function AllTalks({talks}) {
                         <span>Props list</span>
                         <input placeholder={editTalk.propsList} type="text" id="propsList" value={editTalk.propsList}
                                onChange={onChange}/>
+
+                        <label>
+                            Add speaker:
+                            <select
+                                value={addSpeaker}
+                                onChange={(event) => setAddSpeaker(event.target.value)}
+                            >
+                                {speakers.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
                         //TODO speakers and conference
 
 

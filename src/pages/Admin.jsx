@@ -9,6 +9,11 @@ function Admin() {
     const [conference, setConference] = useState(init)
     const [talks, setTalks] = useState([])
     const [showAllTalks, setShowAllTalks] = useState(false)
+    const [shouldUpdate, setShouldUpdate] = useState(false)
+
+    useEffect(()=> {
+
+        }, [shouldUpdate])
 
     const onCChange = (evt) => {
         setConference({...conference, [evt.target.id]: evt.target.value})
@@ -63,10 +68,10 @@ function Admin() {
             </div>
 
             <div>
-                <h3>Update entities</h3>
+                <h3>Update or delete entities</h3>
                 <div>
                     <a href="#" onClick={() => handleClick("talks")}>Show all Talks</a> <br/>
-                    {showAllTalks && <AllTalks talks={talks}/>}
+                    {showAllTalks && <AllTalks talks={talks} shouldUpdate={shouldUpdate} setShouldUpdate={setShouldUpdate}/>}
                     <a href="#" onClick={() => handleClick("conferences")}>Show all Conferences</a> <br/>
                     <a href="#" onClick={() => handleClick("speakers")}>Show all Speakers</a>
                 </div>
